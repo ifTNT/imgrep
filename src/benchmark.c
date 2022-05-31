@@ -8,7 +8,7 @@ struct timespec start, finish;
 /**
  * Begin wall-time measurement
  */
-void benchmark_cpu_start() { clock_gettime(CLOCK_MONOTONIC, &start); }
+void benchmark_cpu_begin() { clock_gettime(CLOCK_MONOTONIC, &start); }
 
 /**
  * End time measurement

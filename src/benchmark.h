@@ -15,6 +15,6 @@ double benchmark_cpu_end();
  * benchmark_gpu_begin/end() - Benchmark the total GPU execution time
  */
 void benchmark_gpu_begin();
-extern double benchmark_gpu_end();
+double benchmark_gpu_end();
 
 #endif  // BENCHMARK_H
