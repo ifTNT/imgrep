@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-struct timespec start, finish;
+static struct timespec start, finish;
 
 /**
  * Begin wall-time measurement

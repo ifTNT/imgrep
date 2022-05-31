@@ -1,11 +1,13 @@
-#include "benchmark.hpp"
+extern "C" {
+#include "benchmark.h"
+}
 
 static cudaEvent_t start, stop;
 
 /**
  * Begin time measurement
  */
-extern "C" void benchmark_gpu_begin() {
+void benchmark_gpu_begin() {
   cudaEvent_t start, stop;
 
   cudaEventCreate(&start);
@@ -17,7 +19,7 @@ extern "C" void benchmark_gpu_begin() {
 /**
  * End time measurement
  */
-extern "C" double benchmark_gpu_end() {
+double benchmark_gpu_end() {
   float elapsed;
   cudaEventSynchronize(stop);
   cudaEventElapsedTime(&elapsed, start, stop);
