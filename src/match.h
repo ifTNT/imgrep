@@ -24,7 +24,7 @@ typedef struct {
   int cnt;
   unsigned int width;
   unsigned int height;
-  float** map;
+  char** map;
 } match_result_t;
 
 /**
@@ -49,5 +49,17 @@ typedef struct {
  * src: The original result structure returned from the matcher.
  */
 void match_get_pos_list(match_pos_t** pos_list, match_result_t* src);
+
+/**
+ * match_free_result - Release the resource hold by the result object.
+ * target: Target result to be release.
+ */
+void match_free_result(match_result_t* target);
+
+/**
+ * match_free_pos_list - Release the resource hold by the position list object.
+ * pos_list: Target list to be release.
+ */
+void match_free_pos_list(match_pos_t* pos_list);
 
 #endif  // MATCH_H
