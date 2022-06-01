@@ -7,46 +7,34 @@
 /**
  * _regoin_pcc - Calculate PCC of RGB channels within the given region
  */
-#define CHANNELS (3)
 #define PIXEL(img, x, y, ch) \
-  ((float)((unsigned char*)(&img->img_pixels[(y)][(x)]))[ch])
+  ((float)((unsigned char*)(&(img)->img_pixels[(y)][(x)]))[(ch)])
 static float _regoin_pcc(bmp_img* src, bmp_img* tmpl, int off_x, int off_y) {
+  const int CHANNELS = 3;
   int h = tmpl->img_header.biHeight;
   int w = tmpl->img_header.biWidth;
-  float mean_src, mean_tmpl;
-  float cov, var_src, var_tmpl;
-  float diff_src, diff_tmpl;
+  int n = h * w;
   float pcc = 0;
+  float p, q, sum_p, sum_q, sum_pp, sum_qq, sum_pq;
   for (int ch = 0; ch < CHANNELS; ch++) {
-    // Calculate the mean value
-    mean_src = 0, mean_tmpl = 0;
+    sum_pq = 0, sum_p = 0, sum_q = 0, sum_pp = 0, sum_qq = 0;
     for (int y = 0; y < h; y++) {
       for (int x = 0; x < w; x++) {
-        mean_src += PIXEL(src, x + off_x, y + off_y, ch);
-        mean_tmpl += PIXEL(tmpl, x, y, ch);
+        p = PIXEL(src, x + off_x, y + off_y, ch);
+        q = PIXEL(tmpl, x, y, ch);
+        sum_p += p;
+        sum_q += q;
+        sum_pp += p * p;
+        sum_qq += q * q;
+        sum_pq += p * q;
       }
     }
-    mean_src /= w * h;
-    mean_tmpl /= w * h;
-
-    // Calculate PCC
-    cov = 0, var_src = 0, var_tmpl = 0;
-    for (int y = 0; y < h; y++) {
-      for (int x = 0; x < w; x++) {
-        diff_src = (PIXEL(src, x + off_x, y + off_y, ch) - mean_src);
-        diff_tmpl = (PIXEL(tmpl, x, y, ch) - mean_tmpl);
-        cov += diff_src * diff_tmpl;
-        var_src += diff_src * diff_src;
-        var_tmpl += diff_tmpl * diff_tmpl;
-      }
-    }
-    pcc += cov / (sqrt(var_src) * sqrt(var_tmpl));
+    pcc += (sum_pq * n - sum_p * sum_q) / sqrt(sum_qq * n - sum_q * sum_q) /
+           sqrt(sum_pp * n - sum_p * sum_p);
   }
   return pcc;
 }
-#undef TMPL_PIXEL
-#undef SRC_PIXEL
-#undef CHANNELS
+#undef PIXEL
 
 void pcc_init(matcher_iface* matcher) {
   matcher->match_cpu = &pcc_cpu;

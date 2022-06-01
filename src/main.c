@@ -8,6 +8,12 @@
 #include "match.h"
 #include "match_pcc.h"
 
+/**
+ * Extern varibles of getopt()
+ */
+extern char *optarg;
+extern int optind, opterr, optopt;
+
 enum matcher_e { MATCHER_PCC = 0, MATCHER_SSD, MATCHER_CNT };
 static const char *MATCHER_STRING[] = {"PCC", "SSD", ""};
 

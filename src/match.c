@@ -21,4 +21,5 @@ void match_free_result(match_result_t* target) {
   }
   free(target->map);
 }
+
 void match_free_pos_list(match_pos_t* pos_list) { free(pos_list); }
