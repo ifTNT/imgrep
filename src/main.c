@@ -5,6 +5,7 @@
 #include <unistd.h>
 
 #include "benchmark.h"
+#include "flatmat.h"
 #include "match.h"
 #include "match_pcc.h"
 
@@ -106,15 +107,21 @@ int main(int argc, char *argv[]) {
   pcc_init(&matchers[MATCHER_PCC]);
 
   // Read the bmp file
-  bmp_img src_img;
-  bmp_img tmpl_img;
-  read_img(&src_img, args.src_path);
-  read_img(&tmpl_img, args.tmpl_path);
+  bmp_img src_bmp;
+  bmp_img tmpl_bmp;
+  flatmat_t src_img;
+  flatmat_t tmpl_img;
+  read_img(&src_bmp, args.src_path);
+  read_img(&tmpl_bmp, args.tmpl_path);
+  flatmat_from_bmp(&src_img, src_bmp);
+  flatmat_from_bmp(&tmpl_img, tmpl_bmp);
+  bmp_img_free(&src_bmp);
+  bmp_img_free(&tmpl_bmp);
 
-  printf("Source image = %s (%d, %d)\n", args.src_path,
-         src_img.img_header.biHeight, src_img.img_header.biWidth);
-  printf("Template image = %s (%d, %d)\n", args.tmpl_path,
-         tmpl_img.img_header.biHeight, tmpl_img.img_header.biWidth);
+  printf("Source image: %s (%d, %d)\n", args.src_path, src_img.height,
+         src_img.width);
+  printf("Template image: %s (%d, %d)\n", args.tmpl_path, tmpl_img.height,
+         tmpl_img.width);
 
   // Perform the benchmark of selected matcher
   double elapsed;
@@ -144,8 +151,8 @@ int main(int argc, char *argv[]) {
   // Release resources
   match_free_pos_list(pos);
   match_free_result(&result);
-  bmp_img_free(&src_img);
-  bmp_img_free(&tmpl_img);
+  flatmat_free(&src_img);
+  flatmat_free(&tmpl_img);
 
   exit(EXIT_SUCCESS);
 }

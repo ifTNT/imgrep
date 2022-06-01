@@ -7,6 +7,8 @@
 
 #include <libbmp/libbmp.h>
 
+#include "flatmat.h"
+
 typedef struct {
   unsigned int x;
   unsigned int y;
@@ -24,7 +26,7 @@ typedef struct {
   int cnt;
   unsigned int width;
   unsigned int height;
-  char** map;
+  flatmat_t map;
 } match_result_t;
 
 /**
@@ -37,9 +39,9 @@ typedef struct {
  * thrd_size: (GPU mode only) How many threads per block of CUDA
  */
 typedef struct {
-  void (*match_cpu)(match_result_t* result, bmp_img* src, bmp_img* tmpl,
+  void (*match_cpu)(match_result_t* result, flatmat_t* src, flatmat_t* tmpl,
                     int thrd_cnt);
-  void (*match_gpu)(match_result_t* result, bmp_img* src, bmp_img* tmpl,
+  void (*match_gpu)(match_result_t* result, flatmat_t* src, flatmat_t* tmpl,
                     int blk_size, int thrd_size);
 } matcher_iface;
 
