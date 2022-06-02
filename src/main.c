@@ -8,6 +8,7 @@
 #include "flatmat.h"
 #include "match.h"
 #include "match_pcc.h"
+#include "match_ssd.h"
 
 /**
  * Extern varibles of getopt()
@@ -105,6 +106,7 @@ int main(int argc, char *argv[]) {
   // Initialize the matchers
   matcher_iface matchers[MATCHER_CNT];
   pcc_init(&matchers[MATCHER_PCC]);
+  ssd_init(&matchers[MATCHER_SSD]);
 
   // Read the bmp file
   bmp_img src_bmp;

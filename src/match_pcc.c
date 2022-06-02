@@ -39,7 +39,7 @@ void pcc_cpu(match_result_t* result, flatmat_t* src, flatmat_t* tmpl,
         max = *FLATMAT_AT(&pcc_map, x, y, 0);
     }
   }
-  if (max > 3.0) max = 3.0;
+  printf("Max: %f\n", max);
 
   // Draw the result map
   int tmp;
