@@ -8,12 +8,12 @@ static struct timespec start, finish;
 /**
  * Begin wall-time measurement
  */
-void benchmark_cpu_begin() { clock_gettime(CLOCK_MONOTONIC, &start); }
+void benchmark_begin() { clock_gettime(CLOCK_MONOTONIC, &start); }
 
 /**
  * End time measurement
  */
-double benchmark_cpu_end() {
+double benchmark_end() {
   double elapsed;
   clock_gettime(CLOCK_MONOTONIC, &finish);
   elapsed = (finish.tv_sec - start.tv_sec);

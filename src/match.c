@@ -8,7 +8,7 @@ void match_get_pos_list(match_pos_t** pos_list, match_result_t* src) {
   int pos_i = 0;
   for (unsigned int y = 0; y < src->height; y++) {
     for (unsigned int x = 0; x < src->width; x++) {
-      if (*FLATMAT_GET(src->map, x, y, 0) == 1) {
+      if (*FLATMAT_AT(&src->map, x, y, 0) == 1) {
         (*pos_list)[pos_i++] = (match_pos_t){x, y};
       }
     }

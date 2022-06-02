@@ -128,15 +128,15 @@ int main(int argc, char *argv[]) {
   match_result_t result;
   match_pos_t *pos;
   if (args.use_cpu) {
-    benchmark_cpu_begin();
+    benchmark_begin();
     matchers[args.matcher].match_cpu(&result, &src_img, &tmpl_img,
                                      args.thrd_size);
-    elapsed = benchmark_cpu_end();
+    elapsed = benchmark_end();
   } else {
-    benchmark_gpu_begin();
+    benchmark_begin();
     matchers[args.matcher].match_gpu(&result, &src_img, &tmpl_img,
                                      args.blk_size, args.thrd_size);
-    elapsed = benchmark_gpu_end();
+    elapsed = benchmark_end();
   }
 
   match_get_pos_list(&pos, &result);

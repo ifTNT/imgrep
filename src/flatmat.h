@@ -27,10 +27,10 @@ void flatmat_init_cuda(flatmat_t* dst, unsigned int width, unsigned int height,
 void flatmat_from_bmp(flatmat_t* dst, bmp_img src);
 
 /**
- * FLATMAT_GET - Get element of one channel from specified matrix.
+ * FLATMAT_AT - Get the pointer to element of one layer from specified matrix.
  */
-#define FLATMAT_GET(mat, x, y, z) \
-  (&(mat).el[(y) * (mat).width * (mat).layer + (x) * (mat).layer + (z)])
+#define FLATMAT_AT(mat, x, y, z) \
+  (&(mat)->el[(y) * (mat)->width * (mat)->layer + (x) * (mat)->layer + (z)])
 
 /**
  * flatmat_free(_cuda) - Release the resource hold by flatmatrix object

@@ -8,8 +8,8 @@
 /**
  * benchmark_cpu_begin/end() - Benchmark the total CPU execution time
  */
-void benchmark_cpu_begin();
-double benchmark_cpu_end();
+void benchmark_begin();
+double benchmark_end();
 
 /**
  * benchmark_gpu_begin/end() - Benchmark the total GPU execution time

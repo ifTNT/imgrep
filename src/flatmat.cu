@@ -1,6 +1,7 @@
 extern "C" {
 #include <flatmat.h>
 }
+#include "cudautil.h"
 
 typedef unsigned int uint;
 typedef unsigned char uchar;
@@ -9,6 +10,7 @@ void flatmat_init(flatmat_t *dst, unsigned int width, unsigned int height,
                   unsigned int layer) {
   uint size = width * height * layer * sizeof(float);
   dst->el = (float *)malloc(size);
+  dst->size = size;
   dst->width = width;
   dst->height = height;
   dst->layer = layer;
@@ -17,7 +19,8 @@ void flatmat_init(flatmat_t *dst, unsigned int width, unsigned int height,
 void flatmat_init_cuda(flatmat_t *dst, unsigned int width, unsigned int height,
                        unsigned int layer) {
   uint size = width * height * layer * sizeof(float);
-  cudaMalloc((void **)&(dst->el), size);
+  GPU_ERRCHK(cudaMalloc((void **)&(dst->el), size));
+  dst->size = size;
   dst->width = width;
   dst->height = height;
   dst->layer = layer;
@@ -46,6 +49,6 @@ void flatmat_free(flatmat_t *mat) {
 }
 
 void flatmat_free_cuda(flatmat_t *mat) {
-  cudaFree(mat->el);
+  GPU_ERRCHK(cudaFree(mat->el));
   mat->el = NULL;
 }

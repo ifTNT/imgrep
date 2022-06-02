@@ -1,18 +1,23 @@
+SRC_PATH = src
+LIB_PATH = lib
+CUDA_PATH = /opt/cuda
+
 CFLAGS = -c -Wall -O2 -g
-LDFLAGS = -L/opt/cuda/lib64 -lpthread -lm -lcudadevrt -lcudart
+LDFLAGS = -L${CUDA_PATH}/lib64 -lpthread -lm -lcudadevrt -lcudart
 CUDA_ARCH = sm_50
-CUDA_CFLAGS := --device-c -arch=${CUDA_ARCH} -g -G
+CUDA_CFLAGS := --device-c -arch=${CUDA_ARCH} -O2 -g -G
 CUDA_LDFLAGS := --device-link -arch=${CUDA_ARCH} -lcudadevrt -lcudart
-INCLUDE_PATH = -Isrc/ -Ilib/
+INCLUDE_PATH = -I${SRC_PATH} -I${LIB_PATH} -I${CUDA_PATH}/include
 CC = gcc
 NVCC = nvcc
 
-HEADERS := $(wildcard src/*.h)
-CU_SRCS := $(wildcard src/*.cu)
+HEADERS := $(wildcard ${SRC_PATH}/*.h)
+CU_SRCS := $(wildcard ${SRC_PATH}/*.cu)
 CU_OBJS := $(patsubst %.cu, %.cu.o, $(CU_SRCS))
-C_SRCS := $(wildcard src/*.c lib/libbmp/*.c)
-C_OBJS := $(patsubst %.c, %.c.o, $(C_SRCS))
-DEVICE_OBJ = src/device_link.o
+LIBS    := $(dir $(wildcard ${LIB_PATH}/*/))
+C_SRCS  := $(wildcard ${SRC_PATH}/*.c ${addsuffix *.c, ${LIBS}})
+C_OBJS  := $(patsubst %.c, %.c.o, $(C_SRCS))
+DEVICE_OBJ = ${SRC_PATH}/device_link.o
 OBJS := ${C_OBJS} ${CU_OBJS} ${DEVICE_OBJ}
 EXEC = imgrep
 
@@ -23,7 +28,7 @@ ${EXEC}: ${OBJS}
 	${CC} -o $@ $^ ${LDFLAGS}
 
 # If want to use the host linker,
-# It's necessary to do an intermediate device code link step.
+# it's necessary to do an intermediate device code link step.
 ${DEVICE_OBJ}: ${CU_OBJS}
 	${NVCC} -o $@ $^ ${CUDA_LDFLAGS}
 
