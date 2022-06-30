@@ -14,7 +14,7 @@ _ssd_region(flatmat_t *src, flatmat_t *tmpl, int off_x, int off_y) {
   int w = tmpl->width;
   float ssd = 0;
   float p, q, sum, diff;
-  for (int ch = 0; ch < src->layer; ch++) {
+  for (uint ch = 0; ch < src->layer; ch++) {
     sum = 0;
     for (int y = 0; y < h; y++) {
       for (int x = 0; x < w; x++) {

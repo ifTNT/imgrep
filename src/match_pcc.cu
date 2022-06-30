@@ -15,7 +15,7 @@ _pcc_region(flatmat_t *src, flatmat_t *tmpl, int off_x, int off_y) {
   int n = h * w;
   float pcc = 0;
   float p, q, sum_p, sum_q, sum_pp, sum_qq, sum_pq;
-  for (int ch = 0; ch < src->layer; ch++) {
+  for (uint ch = 0; ch < src->layer; ch++) {
     sum_pq = 0, sum_p = 0, sum_q = 0, sum_pp = 0, sum_qq = 0;
     for (int y = 0; y < h; y++) {
       for (int x = 0; x < w; x++) {

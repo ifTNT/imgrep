@@ -24,6 +24,7 @@ void benchmark_gpu_begin() {
  */
 double benchmark_gpu_end() {
   float elapsed;
+  cudaEventRecord(stop);
   GPU_ERRCHK(cudaEventSynchronize(stop));
   GPU_ERRCHK(cudaEventElapsedTime(&elapsed, start, stop));
   elapsed /= 1.0E3;

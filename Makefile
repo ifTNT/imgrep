@@ -1,12 +1,12 @@
 SRC_PATH = src
 LIB_PATH = lib
-CUDA_PATH = /opt/cuda
+CUDA_PATH = $(dir $(shell which nvcc))..
 
 CFLAGS = -c -Wall -O2 -g
 LDFLAGS = -L${CUDA_PATH}/lib64 -lpthread -lm -lcudadevrt -lcudart
-CUDA_ARCH = sm_50
-CUDA_CFLAGS := --device-c -arch=${CUDA_ARCH} -O2 -g -G
-CUDA_LDFLAGS := --device-link -arch=${CUDA_ARCH} -lcudadevrt -lcudart
+CUDA_ARCH = -arch=sm_50
+CUDA_CFLAGS := --device-c ${CUDA_ARCH} -G -forward-unknown-to-host-compiler ${CFLAGS}
+CUDA_LDFLAGS := --device-link ${CUDA_ARCH} -lcudadevrt -lcudart
 INCLUDE_PATH = -I${SRC_PATH} -I${LIB_PATH} -I${CUDA_PATH}/include
 CC = gcc
 NVCC = nvcc
