@@ -35,7 +35,7 @@ static void print_usage(const char *program_name) {
       "<tmpl_img>\n"
       "  -c : Use pure CPU to calculate. (block_size is ignored)\n"
       "  -m matcher : Matcher to calculate similarity. (PCC/SSD)\n"
-      "  -b block_size=1 : The block size of CUDA.\n"
+      "  -b block_size=1 : How many blockss will be launch.\n"
       "  -t thread_size=1 : (In CUDA mode) How many threads per block.\n"
       "                     (In CPU mode) How many threads will be launch.\n"
       "  src_img : The path to the source image. (Only accept BMP format)\n"

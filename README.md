@@ -8,15 +8,16 @@ CUDA template matching project of 2022 EMCSS
 
 ## Dependency
 
-- CUDA
-- CMake 3.23 or above
+- CUDA >= 11.0.0
 
 ## Build
 
-```
-mkdir build
-cd build
-cmake -DCMAKE_BUILD_TYPE=Release ..
+```bash
+cd path/to/imgrep
+# Adjuest the CUDA_ARCH parameter to your target hardware in the makefile
+vim Makefile
+
+# Build the whole project
 make
 ```
 
@@ -31,7 +32,7 @@ make
 ```
 -c : Use pure CPU to calculate. (block_size is ignored)
 -m matcher : Matcher to calculate similarity. (PCC/SSD)
--b block_size=1 : The block size of CUDA.
+-b block_size=1 : How many blockss will be launch.
 -t thread_size=1 : (In CUDA mode) How many threads per block.
                    (In CPU mode) How many threads will be launch.
 src_img : The path to the source image. (Only accept BMP format)
